@@ -86,7 +86,11 @@ echo "Downloading $MYSQL_DATABASE database from $SSH_SERVER"
 echo "--------------------------------------------------------------"
 
 ssh -q -t $SSH_USERNAME@$SSH_SERVER mysqldump --default-character-set=utf8 -u$MYSQL_USERNAME -p$MYSQL_PASSWORD $MYSQL_DATABASE > $OUTPUT_SQL_FILENAME
-echo "Finished downloading $MYSQL_DATABASE"
+if [[ $? != 0 ]]; then
+  echo "Failed to download DB data"
+else
+  echo "Finished downloading $MYSQL_DATABASE"
+fi
 
 echo "--------------------------------------------------------------"
 echo "Overwriting $MYSQL_DATABASE on localhost using downloaded data"
@@ -94,8 +98,13 @@ echo "--------------------------------------------------------------"
 
 mysql -u$MYSQL_USERNAME -p$MYSQL_PASSWORD $MYSQL_DATABASE < $OUTPUT_SQL_FILENAME
 
+if [[ $? != 0 ]]; then
+  echo "Failed to import the new database data into the local database"
+fi
+
 if [ $doClean -ne 0 ]; then
   rm $OUTPUT_SQL_FILENAME
 fi
  
 echo "Finished backuping your remote $MYSQL_DATABASE database to your local $MYSQL_DATABASE database"
+exit 0
