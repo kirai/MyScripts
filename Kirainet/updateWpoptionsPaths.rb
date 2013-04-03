@@ -29,6 +29,7 @@
 #      localurl: http://kirainet.locahost/english
 #
 
+require 'rubygems'
 require 'mysql2'
 require 'yaml'
 p ARGV.inspect

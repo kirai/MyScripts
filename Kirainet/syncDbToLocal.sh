@@ -96,6 +96,10 @@ echo "--------------------------------------------------------------"
 echo "Overwriting $MYSQL_DATABASE on localhost using downloaded data"
 echo "--------------------------------------------------------------"
 
+mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_USERNAME'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD'"
+
+mysql -u$MYSQL_USERNAME -p$MYSQL_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE";
+
 mysql -u$MYSQL_USERNAME -p$MYSQL_PASSWORD $MYSQL_DATABASE < $OUTPUT_SQL_FILENAME
 
 if [[ $? != 0 ]]; then
