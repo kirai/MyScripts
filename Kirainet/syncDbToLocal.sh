@@ -23,6 +23,7 @@ printUsage() {
     echo "Options (Sixth Parameter):"
     echo "    -c,--clean: deletes mysqldump .sql files after being downloaded"
     echo "    -h,--help: print help"
+    exit
 }
 
 doClean=0
@@ -66,8 +67,7 @@ if [ $# -lt 5 ]; then
       printUsage
       exit -1
       ;;
- 
-   *)
+    *)
 	    ;;
   esac
 fi
@@ -88,6 +88,7 @@ echo "--------------------------------------------------------------"
 ssh -q -t $SSH_USERNAME@$SSH_SERVER mysqldump --default-character-set=utf8 -u$MYSQL_USERNAME -p$MYSQL_PASSWORD $MYSQL_DATABASE > $OUTPUT_SQL_FILENAME
 if [[ $? != 0 ]]; then
   echo "Failed to download DB data"
+  exit -1
 else
   echo "Finished downloading $MYSQL_DATABASE"
 fi
