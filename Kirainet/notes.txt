@@ -1,0 +1,25 @@
+
+
+
+==========================================
+When using sed and file paths, it's easier to avoid the "/" delimiter, else you'll be escaping it everytime. This "picket fence" format makes it terrible to read.
+
+Assuming you're trying to replace "DocumentRoot /var/www/html" with "DocumentRoot /usr/share/rt3/html/", try this:
+
+sed 's_DocumentRoot /var/www/html_DocumentRoot /usr/share/rt3/html/_' /etc/httpd/conf/httpd.conf
+Example:
+
+~> echo "DocumentRoot /var/www/html" | sed 's_DocumentRoot /var/www/html_DocumentRoot /usr/share/rt3/html/_'
+DocumentRoot /usr/share/rt3/html/
+~>
+EDIT: From your comment, you're wanting to 1) open the file, 2) replace the string, and 3) save changes to the original file. In this case, you can use sed's -i flag (in-place editing). Try this:
+
+sed -i 's_DocumentRoot /var/www/html_DocumentRoot /usr/share/rt3/html/_' /etc/httpd/conf/httpd.conf
+Example:
+
+~> echo "DocumentRoot /var/www/html" > file
+~> cat file
+DocumentRoot /var/www/html
+~> sed -i 's_DocumentRoot /var/www/html_DocumentRoot /usr/share/rt3/html/_' file
+~> cat file
+DocumentRoot /usr/share/rt3/html/
