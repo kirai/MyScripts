@@ -56,7 +56,7 @@ begin
                                 :database => site["database"])
 
     client.query("UPDATE `wp_options` SET `option_value` = '#{site["localurl"]}' WHERE `option_id` = '1'")
-    client.query("UPDATE `wp_options` SET `option_value` = '#{site["localurl"]}' WHERE `option_id` = '39'")
+    client.query("UPDATE `wp_options` SET `option_value` = '#{site["localurl"]}' WHERE `option_id` = '2'")
   end
 
 rescue Mysql::Error => e
